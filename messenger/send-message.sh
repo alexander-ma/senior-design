@@ -1,13 +1,13 @@
 #!/bin/bash
 
-../adb.exe shell am start -n com.facebook.orca/com.facebook.orca.auth.StartScreenActivity
+./adb shell am start -n com.facebook.orca/com.facebook.orca.auth.StartScreenActivity
 sleep 2
 
 echo tap first Messenger contact # printing message to console for debugging
-../adb.exe shell input tap 289 690 # tapping on coordinates 289x690 on phone
+./adb shell input tap 289 690 # tapping on coordinates 289x690 on phone
 
 echo tap message line
-../adb.exe shell input tap 556 1748
+./adb shell input tap 556 1748
 
 array=("testing" "hmm" "bless" "Naeem")
 echo ${#array[@]}
@@ -16,9 +16,9 @@ echo ${#array[@]}
 for element in ${array[@]} 
 do
     echo Send message $element
-    ../adb.exe shell input text $element
+    ./adb shell input text $element
     echo tap send
-    ../adb.exe shell input tap 1004 962
+    ./adb shell input tap 1004 962
 
 done
 
