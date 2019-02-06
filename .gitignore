@@ -1,2 +1,4 @@
 adb
 adb.exe
+.DS_Store
+*.pcap
