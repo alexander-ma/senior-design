@@ -28,3 +28,10 @@ Have the following installed:
 6. Use `echo` as print statements to describe what is going on and for debugging
 4. Use `adb shell input tap X Y` to tap in the corresponding screen coordinates (replace **X** and **Y**)
 5. Use `adb shell input text placeholder` to input words (replace **placeholder**)
+
+### Running ADB Scripts on Multiple Devices
+To check which devices are connected to a computer, run `adb devices` to get a list of devices attached with their device ID.
+
+To run an ADB command with a certain device, use the `-s` flag along with the device ID.
+
+`adb -s d56097ed shell am start -a android.intent.action.VIEW ..."`
