@@ -4,18 +4,18 @@ adb shell tcpdump -i any -s 0 -w /sdcard/spotify.pcap &
 PID=$!
 #adb shell am start -a android.intent.action.VIEW com.spotify.android/com.spotify.app.main.MainActivity
 adb shell am start -a android.intent.action.VIEW com.spotify.music/.MainActivity
-sleep 5
+sleep 3
 
 adb shell input tap 491 1845
-sleep 5
+sleep 3
 
 adb shell input tap 534 635
-sleep 5
+sleep 3
 
 artist="american"
 
 adb shell input text $artist
-sleep 5
+sleep 3
 
 adb shell input keyevent 111
 sleep 2
@@ -27,7 +27,7 @@ do
 done
 
 adb shell input tap 401 554
-sleep 5
+sleep 3
 
 for i in {1..10}
 do
@@ -35,7 +35,7 @@ do
 	sleep 1
 done
 
-sleep 20
+sleep 5
 adb shell am force-stop com.spotify.music
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
