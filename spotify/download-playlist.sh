@@ -2,40 +2,42 @@
 echo 'STARTING TCPDUMP...'
 adb shell tcpdump -i any -s 0 -w /sdcard/spotify.pcap &
 PID=$!
-#adb shell am start -a android.intent.action.VIEW com.spotify.android/com.spotify.app.main.MainActivity
+
+echo 'STARTING SPOTIFY...'
 adb shell am start -a android.intent.action.VIEW com.spotify.music/.MainActivity
 sleep 5
 
+echo 'CLICKING SEARCH BUTTON'
 adb shell input tap 491 1845
 sleep 5
 
+echo 'CLICKING SEARCH BAR'
 adb shell input tap 534 635
 sleep 5
 
-artist="american"
+query="playlist"
 
-adb shell input text $artist
+echo 'INPUTING QUERY'
+adb shell input text $query
 sleep 5
 
-adb shell input keyevent 111
-sleep 2
-
-for i in {1..5}
-do
-	adb shell input swipe 500 1500 500 100 1000
-	sleep 1
-done
-
-adb shell input tap 401 554
+echo 'CLICKING SONG SIDEBAR OPTIONS'
+adb shell input tap 980 527
 sleep 5
 
-for i in {1..10}
-do
-	adb shell input swipe 500 1500 500 100 1000
-	sleep 1
-done
+echo 'CLICK DOWNLOAD PLAYLIST'
+adb shell input tap 595 1400
+echo 'DOWNLOADING PLAYLIST'
+sleep 30
 
-sleep 20
+echo 'CLICKING SONG SIDEBAR OPTIONS'
+adb shell input tap 980 527
+sleep 5
+
+echo 'CLICK REMOVE DOWNLOAD'
+adb shell input tap 500 1400
+
+sleep 5
 adb shell am force-stop com.spotify.music
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
