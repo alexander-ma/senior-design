@@ -16,4 +16,4 @@ kill ${PID}
 # GENERATING PCAP FILE
 sleep 3
 echo 'Generating .pcap file...'
-adb pull /sdcard/spotify.pcap spotify.pcap
+adb pull /sdcard/hulu.pcap hulu.pcap
