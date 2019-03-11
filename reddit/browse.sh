@@ -8,7 +8,9 @@ while getopts t:s: option; do
 done
 
 script_name=`basename "$0"`
-script_name=${script_name::-3}
+echo $script_name
+script_name=${script_name%.*}
+echo $script_name
 dir_name=`dirname "$0"`
 dir_name=${dir_name:2}
 
