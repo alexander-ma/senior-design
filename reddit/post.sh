@@ -1,28 +1,43 @@
 #!/bin/bash
+
+while getopts t:s: option; do
+    case $option in
+        t) TIME=$OPTARG;;
+        s) PHONE_ID=$OPTARG;;
+    esac
+done
+
+script_name=`basename "$0"`
+script_name=${script_name::-3}
+dir_name=`dirname "$0"`
+dir_name=${dir_name:2}
+
 echo 'STARTING TCPDUMP...'
-adb shell tcpdump -i any -s 0 -w /sdcard/reddit.pcap &
+adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" &
 PID=$!
-adb shell am start -a android.intent.action.VIEW com.reddit.frontpage/com.reddit.frontpage.MainActivity
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.reddit.frontpage/com.reddit.frontpage.MainActivity
 sleep 2
 
 # Create text post
-adb shell input tap 550 1850
-adb shell input tap 900 1650
-adb shell input tap 550 340
+adb -s $PHONE_ID input tap 550 1850
+adb -s $PHONE_ID input tap 900 1650
+adb -s $PHONE_ID input tap 550 340
 # Choose community
-adb shell input tap 550 550
-adb shell input tap 550 500
+adb -s $PHONE_ID input tap 550 550
+adb -s $PHONE_ID input tap 550 500
 postTerm="Testing"
-adb shell input text $postTerm
-adb shell input tap 550 650
+adb -s $PHONE_ID input text $postTerm
+adb -s $PHONE_ID input tap 550 650
 detailText="ignore"
-adb shell input text $postTerm
-adb shell input tap 970 190
+adb -s $PHONE_ID input text $postTerm
+adb -s $PHONE_ID input tap 970 190
 
 sleep 2
-adb shell am force-stop com.reddit.frontpage
+
+adb -s $PHONE_ID shell am force-stop com.reddit.frontpage
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
 echo 'Generating .pcap file...'
-adb pull /sdcard/reddit.pcap reddit.pcap
+adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" 
+adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap"

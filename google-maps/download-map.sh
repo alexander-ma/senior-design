@@ -1,33 +1,47 @@
 #!/bin/bash
 
+while getopts t:s: option; do
+    case $option in
+        t) TIME=$OPTARG;;
+        s) PHONE_ID=$OPTARG;;
+    esac
+done
+
+script_name=`basename "$0"`
+script_name=${script_name::-3}
+dir_name=`dirname "$0"`
+dir_name=${dir_name:2}
+
 echo 'STARTING TCPDUMP...'
-adb shell tcpdump -i any -s 0 -w /sdcard/google-maps.pcap &
+adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}__${TIME}_${SERIAL_ID}.pcap" &
 PID=$!
-adb shell am start -a android.intent.action.VIEW com.google.android.apps.maps/com.google.android.maps.MapsActivity
+adb -s $PHONE_ID am start -a android.intent.action.VIEW com.google.android.apps.maps/com.google.android.maps.MapsActivity
 sleep 10
 
 # Center on current location
-adb shell input tap 930 1250
+adb -s $PHONE_ID input tap 930 1250
 sleep 2
 
 # Search for location
 location="Seattle"
-adb shell input tap 563 169
+adb -s $PHONE_ID input tap 563 169
 sleep 1
-adb shell input text $location
-adb shell input keyevent 66
+adb -s $PHONE_ID input text $location
+adb -s $PHONE_ID input keyevent 66
 sleep 5
 
 # Download offline map from hamburger icon
-adb shell input tap 110 183
-adb shell input tap 463 1670
-adb shell input tap 580 360
-adb shell input tap 800 1850
+adb -s $PHONE_ID input tap 110 183
+adb -s $PHONE_ID input tap 463 1670
+adb -s $PHONE_ID input tap 580 360
+adb -s $PHONE_ID input tap 800 1850
 sleep 20
 
 
-adb shell am force-stop com.google.android.apps.maps
+adb -s $PHONE_ID am force-stop com.google.android.apps.maps
+echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
 echo 'Generating .pcap file...'
-adb pull "/sdcard/${dir_name}_${script_name}__${TIME}_${SERIAL_ID}.pcap"
+adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" 
+adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap"
