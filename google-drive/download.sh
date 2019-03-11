@@ -1,18 +1,32 @@
 #!/bin/bash
 
+while getopts t:s: option; do
+    case $option in
+        t) TIME=$OPTARG;;
+        s) PHONE_ID=$OPTARG;;
+    esac
+done
+
+script_name=`basename "$0"`
+script_name=${script_name::-3}
+dir_name=`dirname "$0"`
+dir_name=${dir_name:2}
+
 echo 'STARTING TCPDUMP...'
-adb shell tcpdump -i any -s 0 -w /sdcard/google-drive.pcap &
+adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}__${TIME}_${SERIAL_ID}.pcap" &
 PID=$!
-adb shell am start -a android.intent.action.VIEW com.google.android.apps.docs/com.google.android.apps.docs.doclist.activity.DocListActivity
+adb -s $PHONE_ID am start -a android.intent.action.VIEW com.google.android.apps.docs/com.google.android.apps.docs.doclist.activity.DocListActivity
 sleep 2
 
 # Make available offline
-adb shell input tap 475 840
-adb shell input tap 950 1610
+adb -s $PHONE_ID input tap 475 840
+adb -s $PHONE_ID input tap 950 1610
 sleep 15
 
-adb shell am force-stop com.google.android.apps.docs
+adb -s $PHONE_ID am force-stop com.google.android.apps.docs
+echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
 echo 'Generating .pcap file...'
-adb pull "/sdcard/${dir_name}_${script_name}__${TIME}_${SERIAL_ID}.pcap"
+adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" 
+adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap"

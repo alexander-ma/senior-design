@@ -14,30 +14,23 @@ dir_name=${dir_name:2}
 echo 'STARTING TCPDUMP...'
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" &
 PID=$!
-adb -s $PHONE_ID shell am start -n com.facebook.orca/com.facebook.orca.auth.StartScreenActivity
-sleep 3
-
-adb -s $PHONE_ID shell input tap 300 700 # tapping on coordinates 289x690 on phone
-
-sleep 3
-adb -s $PHONE_ID shell input tap 750 1850
-
-sleep 3
-array=("testing" "hmm" "bless" "Naeem")
-
-# typing and sending each word on messenger
-for element in ${array[@]} 
-do
-    adb -s $PHONE_ID shell input text $element
-    adb -s $PHONE_ID shell input tap 950 1000
-done
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.google.android.gm/com.google.android.gm.ConversationListActivityGmail
 sleep 2
 
-#back
-adb shell input tap 50 100
-sleep 5
+adb -s $PHONE_ID shell input tap 500 1300
+sleep 3
 
-adb shell am force-stop com.facebook.orca
+adb -s $PHONE_ID shell input tap 50 100
+sleep 3
+
+adb -s $PHONE_ID shell input tap 500 1500
+sleep 3
+
+#back
+adb -s $PHONE_ID shell input tap 50 100
+sleep 3
+
+adb -s $PHONE_ID shell am force-stop com.google.android.gm
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
