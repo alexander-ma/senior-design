@@ -25,7 +25,7 @@ sleep 10
 for i in {1..5}
 do
 	sleep 1
-	adb shell input swipe 500 1500 500 100 1000
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 1000
 done
 
 sleep 10
