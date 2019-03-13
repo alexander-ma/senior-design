@@ -13,7 +13,7 @@ dir_name=`dirname "$0"`
 dir_name=${dir_name:2}
 
 echo 'STARTING TCPDUMP...'
-adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}__${TIME}_${SERIAL_ID}.pcap" &
+adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" &
 PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW <REPLACE.ACTIVITY.HERE>
 sleep 2

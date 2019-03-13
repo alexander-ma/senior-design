@@ -9,8 +9,9 @@ pwd = os.getcwd()
 dir_list = [ name for name in os.listdir(pwd) if os.path.isdir(os.path.join(pwd, name)) ]
 location = input('Location of data collection: ')
 
-while True:
-    inp = input('Enter directory name: ')
+for iteration in range(0,8,1):
+    inp = 'reddit'
+    #inp = input('Enter directory name: ')
     shortened_dir_list = [name for name in dir_list if name.startswith(inp) or name == inp]
     if inp == 'ls':
         print(dir_list)
@@ -20,7 +21,8 @@ while True:
         app_name = shortened_dir_list[0]
         app_scripts = os.listdir(app_name)
         print("Scripts: " + str(app_scripts))
-        inp = input('Enter script name: ')
+        inp = 'p'
+        #inp = input('Enter script name: ')
 
         # If there is only one script starting with that name, run it
         shortened_script = [name for name in app_scripts if name.startswith(inp) or name == inp]
@@ -28,8 +30,19 @@ while True:
             script_name = shortened_script[0]
             current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             list_devices_cmd = 'adb devices'.split()
-            subprocess.run(list_devices_cmd)
-            phone_id = input('Enter phone id: ')
+            #subprocess.run(list_devices_cmd)
+            #phone_id = input('Enter phone id: ')
+            byteDeviceOutput = subprocess.run(list_devices_cmd, stdout = subprocess.PIPE)
+            stringDeviceOutput = byteDeviceOutput.stdout.decode("utf-8");
+            print(stringDeviceOutput)
+            stringDeviceOutput = stringDeviceOutput.split();
+            deviceList = []
+            
+            for x in range(4, len(stringDeviceOutput), 2):
+                deviceList.append(stringDeviceOutput[x])
+
+            #phone_id = input('Enter phone id: ')
+            phone_id = deviceList[int(iteration%2)]
 
             # Runs script as senior-design/reddit/browse.sh -t <time> -s <phone_id>
             script_path = os.path.join('./', app_name, script_name)
@@ -102,4 +115,3 @@ while True:
         df = pd.read_csv(csv_file)
         df['location'] = location
         df.to_csv(csv_file)
-

@@ -19,18 +19,18 @@ adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.reddit.frontpa
 sleep 2
 
 # Create text post
-adb -s $PHONE_ID input tap 550 1850
-adb -s $PHONE_ID input tap 900 1650
-adb -s $PHONE_ID input tap 550 340
+adb -s $PHONE_ID shell input tap 550 1850
+adb -s $PHONE_ID shell input tap 900 1650
+adb -s $PHONE_ID shell input tap 550 340
 # Choose community
-adb -s $PHONE_ID input tap 550 550
-adb -s $PHONE_ID input tap 550 500
+adb -s $PHONE_ID shell input tap 550 550
+adb -s $PHONE_ID shell input tap 550 500
 postTerm="Testing"
-adb -s $PHONE_ID input text $postTerm
-adb -s $PHONE_ID input tap 550 650
+adb -s $PHONE_ID shell input text $postTerm
+adb -s $PHONE_ID shell input tap 550 650
 detailText="ignore"
-adb -s $PHONE_ID input text $postTerm
-adb -s $PHONE_ID input tap 970 190
+adb -s $PHONE_ID shell input text $postTerm
+adb -s $PHONE_ID shell input tap 970 190
 
 sleep 2
 

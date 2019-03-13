@@ -28,6 +28,7 @@ done
 
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
+adb -s $PHONSE_ID am force-stop com.facebook.katana
 sleep 3
 echo 'Generating .pcap file...'
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" 

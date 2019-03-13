@@ -13,17 +13,17 @@ dir_name=`dirname "$0"`
 dir_name=${dir_name:2}
 
 echo 'STARTING TCPDUMP...'
-adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}__${TIME}_${SERIAL_ID}.pcap" &
+adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" &
 PID=$!
-adb -s $PHONE_ID am start -a android.intent.action.VIEW com.google.android.apps.docs/com.google.android.apps.docs.doclist.activity.DocListActivity
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.google.android.apps.docs/com.google.android.apps.docs.doclist.activity.DocListActivity
 sleep 2
 
 # Make available offline
-adb -s $PHONE_ID input tap 475 840
-adb -s $PHONE_ID input tap 950 1610
+adb -s $PHONE_ID shell input tap 475 840
+adb -s $PHONE_ID shell input tap 950 1610
 sleep 15
 
-adb -s $PHONE_ID am force-stop com.google.android.apps.docs
+adb -s $PHONE_ID shell am force-stop com.google.android.apps.docs
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3

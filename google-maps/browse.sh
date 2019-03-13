@@ -10,16 +10,16 @@ done
 echo 'STARTING TCPDUMP...'
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}__${TIME}_${SERIAL_ID}.pcap" &
 PID=$!
-adb -s $PHONE_ID am start -a android.intent.action.VIEW com.google.android.apps.maps/com.google.android.maps.MapsActivity
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.google.android.apps.maps/com.google.android.maps.MapsActivity
 sleep 10
 
 
 for i in {1..5}
 do
-	adb -s $PHONE_ID input swipe 100 900 800 900 500
+	adb -s $PHONE_ID shell input swipe 100 900 800 900 500
 done
 
-adb -s $PHONE_ID am force-stop com.google.android.apps.maps
+adb -s $PHONE_ID shell am force-stop com.google.android.apps.maps
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
