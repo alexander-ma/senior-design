@@ -7,42 +7,6 @@ from concurrent.futures import ThreadPoolExecutor
 import threading
 import random
 
-pwd = os.getcwd()
-dir_list = [ name for name in os.listdir(pwd) if os.path.isdir(os.path.join(pwd, name)) ]
-
-location = input('Location of data collection: ')
-num_scripts = input('How many random application actions do you want to collect data on?: ')
-
-#Get list of all runnable scripts
-all_scripts = []
-for directory in dir_list:
-	files = os.listdir(directory)
-	for file in files:
-		if (file.endswith(".sh")):
-			all_scripts.append(directory + "/" + file)
-print(all_scripts)
-
-#Execute different scripts concurrently on each phone
-exec1 = ThreadPoolExecutor(max_workers=1)
-exec2 = ThreadPoolExecutor(max_workers=1)
-exec3 = ThreadPoolExecutor(max_workers=1)
-executors = [exec1, exec2, exec3]
-
-list_devices_cmd = 'adb devices'.split()
-byte_device_output = subprocess.run(list_devices_cmd, stdout = subprocess.PIPE)
-string_device_output = byte_device_output.stdout.decode("utf-8");
-string_device_output = string_device_output.split();
-device_list = []
-for x in range(4, len(string_device_output), 2):
-    device_list.append(string_device_output[x])
-
-num_devices = len(device_list)
-for num in range(int(num_scripts)):
-	cur_device = num % num_devices
-
-	script_path = pick_random_script()
-	executors[cur_device].submit(task, (device_list[cur_device]), (script_path))
-
 def pick_random_script():
 	not_working_scripts = ["hangout/hangout.sh"]
 	for script in not_working_scripts:
@@ -137,3 +101,39 @@ def pcap_to_csv(filename):
 	df = pd.read_csv(csv_file)
 	df['location'] = location
 	df.to_csv(csv_file)
+
+pwd = os.getcwd()
+dir_list = [ name for name in os.listdir(pwd) if os.path.isdir(os.path.join(pwd, name)) ]
+
+location = input('Location of data collection: ')
+num_scripts = input('How many random application actions do you want to collect data on?: ')
+
+#Get list of all runnable scripts
+all_scripts = []
+for directory in dir_list:
+	files = os.listdir(directory)
+	for file in files:
+		if (file.endswith(".sh")):
+			all_scripts.append(directory + "/" + file)
+print(all_scripts)
+
+#Execute different scripts concurrently on each phone
+exec1 = ThreadPoolExecutor(max_workers=1)
+exec2 = ThreadPoolExecutor(max_workers=1)
+exec3 = ThreadPoolExecutor(max_workers=1)
+executors = [exec1, exec2, exec3]
+
+list_devices_cmd = 'adb devices'.split()
+byte_device_output = subprocess.run(list_devices_cmd, stdout = subprocess.PIPE)
+string_device_output = byte_device_output.stdout.decode("utf-8");
+string_device_output = string_device_output.split();
+device_list = []
+for x in range(4, len(string_device_output), 2):
+    device_list.append(string_device_output[x])
+
+num_devices = len(device_list)
+for num in range(int(num_scripts)):
+	cur_device = num % num_devices
+
+	script_path = pick_random_script()
+	executors[cur_device].submit(task, (device_list[cur_device]), (script_path))
