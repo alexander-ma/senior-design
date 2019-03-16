@@ -7,22 +7,16 @@ from concurrent.futures import ThreadPoolExecutor
 import threading
 import random
 
+
 def pick_random_script():
-	not_working_scripts = ["hangout/hangout.sh"]
-	for script in not_working_scripts:
-		all_scripts.remove(script)
+	# not_working_scripts = ["hangout/hangout.sh"]
+	# for script in not_working_scripts:
+	# 	all_scripts.remove(script)
 
-	return random.choice(all_scripts)
-
-def task(phone_id, script_path):
-	current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-	exec_script_path = os.path.join('./', script_path)
-	script_cmd = (exec_script_path + ' -t {0} -s {1}'.format(current_time, phone_id)).split()
-	subprocess.run(script_cmd)
-	app_info = script_path.split('/') # example: reddit/browse.sh -> [reddit, browse.sh]
-	filename = get_filename(app_info[0], app_info[1], current_time, phone_id)
-	remove_data_payloads(filename)
-	pcap_to_csv(filename)
+	# return random.choice(all_scripts)
+	global bob
+	bob = bob + 1
+	return all_scripts[bob]
 
 def get_pcap_filename(filename):
 	return 'pcap/' + filename + '.pcap'
@@ -34,17 +28,19 @@ def get_filename(app_name, script_name, current_time, phone_id):
 	return "{0}_{1}_{2}_{3}".format(app_name, script_name[:-3], current_time, phone_id)
 
 def remove_data_payloads(filename):
-    pcap_file = get_pcap_filename(filename)
-
-    packets = rdpcap(pcap_file)
-    for packet in packets:
-        if TCP in packet:
-            packet[TCP].remove_payload()
-        if UDP in packet:
-            packet[UDP].remove_payload()
-    wrpcap(pcap_file, packets)
-
-    return filename
+	print("Removing Payloads")
+	pcap_file = get_pcap_filename(filename)
+	print(pcap_file)
+	packets = rdpcap(pcap_file)
+	print("packets received")
+	for packet in packets:
+	    if TCP in packet:
+	        packet[TCP].remove_payload()
+	    if UDP in packet:
+	        packet[UDP].remove_payload()
+	wrpcap(pcap_file, packets)
+	print("Complete removing Payloads")
+	return filename
 
 def pcap_to_csv(filename):
 	pcap_file = get_pcap_filename(filename)
@@ -101,6 +97,19 @@ def pcap_to_csv(filename):
 	df = pd.read_csv(csv_file)
 	df['location'] = location
 	df.to_csv(csv_file)
+
+def task(phone_id, script_path):
+	current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+	exec_script_path = os.path.join('./', script_path)
+	script_cmd = (exec_script_path + ' -t {0} -s {1}'.format(current_time, phone_id)).split()
+	subprocess.run(script_cmd)
+	app_info = script_path.split('/') # example: reddit/browse.sh -> [reddit, browse.sh]
+	filename = get_filename(app_info[0], app_info[1], current_time, phone_id)
+	print(filename)
+	remove_data_payloads(filename)
+	pcap_to_csv(filename)
+
+bob = -1
 
 pwd = os.getcwd()
 dir_list = [ name for name in os.listdir(pwd) if os.path.isdir(os.path.join(pwd, name)) ]

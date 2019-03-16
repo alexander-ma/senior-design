@@ -6,20 +6,20 @@ while getopts t:s: option; do
 done
 
 script_name=`basename "$0"`
-script_name=${script_name::-3}
+script_name=${script_name%.*h}
 dir_name=`dirname "$0"`
 dir_name=${dir_name:2}
 
 echo 'STARTING TCPDUMP...'
-adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" &
+adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.google.android.gm/com.google.android.gm.ConversationListActivityGmail
 sleep 2
 
 email_address="utece.5gml@gmail.com"
 
-subject="Meet%sHot%sSingles%sin%sEER!"
-body="UTECE%sis%slooking%sfor%shot%ssenior%smales!"
+subject="Testing%sGmail%sEmail!"
+body="Testing%sthe%body%sof%the%sgmail%smessage!"
 
 adb -s $PHONE_ID shell input tap 900 1800
 sleep 2
@@ -51,5 +51,5 @@ echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
 echo 'Generating .pcap file...'
-adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap" 
-adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}__${TIME}_${PHONE_ID}.pcap"
+adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
+adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
