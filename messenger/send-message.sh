@@ -16,10 +16,10 @@ name="UT"
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 PID=$!
 adb -s $PHONE_ID shell am start -n com.facebook.orca/com.facebook.orca.auth.StartScreenActivity
-sleep 3
+sleep 10
 
 #Tap on search bar
-adb -s $PHONE_ID shell input tap 500 350
+adb -s $PHONE_ID shell input tap 500 340
 sleep 2
 
 #Enter Text
@@ -46,13 +46,14 @@ done
 sleep 2
 
 #back
-adb shell input tap 50 100
+adb -s $PHONE_ID shell input tap 50 100
 sleep 5
 
-adb shell am force-stop com.facebook.orca
+adb -s $PHONE_ID shell am force-stop com.facebook.orca
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
 echo 'Generating .pcap file...'
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
+sleep 10

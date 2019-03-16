@@ -22,10 +22,11 @@ sleep 5
 adb -s $PHONE_ID shell input tap 1000 1075
 sleep 2
 # Swipe up on more options
-adb -s $PHONE_ID shell input swipe 600 1300 600 600 1000
+adb -s $PHONE_ID shell input swipe 600 1300 600 600 200
+adb -s $PHONE_ID shell input swipe 600 1300 600 600 200
 sleep 2
 # Tap on Export
-adb -s $PHONE_ID shell input tap 590 1664
+adb -s $PHONE_ID shell input tap 590 1423
 sleep 2
 # Tap on Save to device
 adb -s $PHONE_ID shell input tap 550 330
@@ -41,3 +42,4 @@ sleep 3
 echo 'Generating .pcap file...'
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
+sleep 10

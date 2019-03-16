@@ -24,12 +24,6 @@ sleep 2
 #Click on Upload
 adb -s $PHONE_ID shell input tap 535 1375
 sleep 2
-#Click on menu
-adb -s $PHONE_ID shell input tap 90 171
-sleep 2
-#Click on Downloads
-adb -s $PHONE_ID shell input tap 375 700
-sleep 2
 #Click on file
 adb -s $PHONE_ID shell input tap 545 545
 sleep 30
@@ -41,3 +35,4 @@ sleep 3
 echo 'Generating .pcap file...'
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
+sleep 10

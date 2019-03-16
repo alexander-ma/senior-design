@@ -43,14 +43,14 @@ sleep 2
 adb -s $PHONE_ID shell input tap 800 1850
 sleep 15
 # Click on optin menu for map
-adb -s $PHONE_ID shell input tap 1000 1200
+adb -s $PHONE_ID shell input tap 1000 787
 sleep 2
 # Click on Delete
-adb -s $PHONE_ID shell input tap 750 1630
+adb -s $PHONE_ID shell input tap 750 1215
 sleep 2
 # Click on yes
 adb -s $PHONE_ID shell input tap 900 1157
-sleep 2
+sleep 10
 
 
 adb -s $PHONE_ID shell am force-stop com.google.android.apps.maps
@@ -60,3 +60,4 @@ sleep 3
 echo 'Generating .pcap file...'
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
+sleep 10

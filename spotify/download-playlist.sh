@@ -16,7 +16,7 @@ echo 'STARTING TCPDUMP...'
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.spotify.music/.MainActivity
-sleep 2
+sleep 5
 
 echo 'CLICKING SEARCH BUTTON'
 adb shell input tap 491 1845
@@ -57,3 +57,4 @@ sleep 3
 echo 'Generating .pcap file...'
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
+sleep 10

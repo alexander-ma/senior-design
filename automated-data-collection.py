@@ -9,20 +9,23 @@ import random
 
 
 def pick_random_script():
-	#Production code
-	not_working_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "snapchat/add-friend.sh"]
-	for script in not_working_scripts:
-		all_scripts.remove(script)
+	global bob
+	#Production code. Comment out not working scripts code below when testing
+	# if bob == -1:
+	# 	#Comment this out when testing
+	# 	not_working_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "snapchat/add-friend.sh", "spotify/download-music", "spotify/play-music", "spotify/search-music"]
+	# 	for script in not_working_scripts:
+	# 		all_scripts.remove(script)
+	# 	bob = bob + 1
 
-	return random.choice(all_scripts)
+	# return random.choice(all_scripts)
 
 	##For testing all the scripts
-	# global bob
-	# bob = bob + 1
+	
 	# return all_scripts[bob]
 
 	##For testing an individual script
-	# return "hangout/hangout.sh"
+	return "spotify/play-music.sh"
 
 def get_pcap_filename(filename):
 	return 'pcap/' + filename + '.pcap'
@@ -34,25 +37,23 @@ def get_filename(app_name, script_name, current_time, phone_id):
 	return "{0}_{1}_{2}_{3}".format(app_name, script_name[:-3], current_time, phone_id)
 
 def remove_data_payloads(filename):
-	print("Removing Payloads")
+	print("Removing Payloads", flush=True)
 	pcap_file = get_pcap_filename(filename)
-	print(pcap_file)
+	print(pcap_file, flush=True)
 	packets = rdpcap(pcap_file)
-	print("packets received")
 	for packet in packets:
 	    if TCP in packet:
 	        packet[TCP].remove_payload()
 	    if UDP in packet:
 	        packet[UDP].remove_payload()
 	wrpcap(pcap_file, packets)
-	print("Complete removing Payloads")
 	return filename
 
 def pcap_to_csv(filename):
 	pcap_file = get_pcap_filename(filename)
 	csv_file = get_csv_filename(filename)
 
-	print('Converting to csv...')
+	print('Converting to csv...', flush=True)
 	pcap_to_csv_cmd = ('tshark -r ' + pcap_file + ' -T fields '
 		+ '-e frame.number '
 		+ '-e frame.time '
@@ -97,23 +98,27 @@ def pcap_to_csv(filename):
 		+ '-e gquic.packet_number '
 		+ '-E header=y -E separator=, -E quote=d > ' + csv_file)
 	subprocess.run(pcap_to_csv_cmd, shell=True)
-	print('Conversion completed')
+	print('Conversion completed', flush=True)
 
 	# Add in location row
 	df = pd.read_csv(csv_file)
 	df['location'] = location
 	df.to_csv(csv_file)
+	os.remove(pcap_file) 
 
-def task(phone_id, script_path):
+def task(phone_id, script_path, script_num):
+	print("[", phone_id, "] [", script_path, "] Script start iteration: ", script_num, flush=True)
 	current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 	exec_script_path = os.path.join('./', script_path)
 	script_cmd = (exec_script_path + ' -t {0} -s {1}'.format(current_time, phone_id)).split()
 	subprocess.run(script_cmd)
 	app_info = script_path.split('/') # example: reddit/browse.sh -> [reddit, browse.sh]
 	filename = get_filename(app_info[0], app_info[1], current_time, phone_id)
-	print(filename)
+	print(filename, flush=True)
 	remove_data_payloads(filename)
 	pcap_to_csv(filename)
+	print("[", phone_id, "] [", script_path, "] Script end iteration: ", script_num, flush=True)
+	
 
 bob = -1
 
@@ -130,7 +135,7 @@ for directory in dir_list:
 	for file in files:
 		if (file.endswith(".sh")):
 			all_scripts.append(directory + "/" + file)
-print(all_scripts)
+print("All scripts len: ", len(all_scripts))
 
 #Execute different scripts concurrently on each phone
 exec1 = ThreadPoolExecutor(max_workers=1)
@@ -146,9 +151,16 @@ device_list = []
 for x in range(4, len(string_device_output), 2):
     device_list.append(string_device_output[x])
 
+not_working_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "snapchat/add-friend.sh", "spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh"]
+for script in not_working_scripts:
+	all_scripts.remove(script)
+
 num_devices = len(device_list)
+print("device list num: ", num_devices)
 for num in range(int(num_scripts)):
 	cur_device = num % num_devices
 
+	if num % num_devices == 0:
+		bob = bob + 1
 	script_path = pick_random_script()
-	executors[cur_device].submit(task, (device_list[cur_device]), (script_path))
+	executors[cur_device].submit(task, (device_list[cur_device]), (script_path), num)
