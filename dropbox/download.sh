@@ -20,14 +20,18 @@ sleep 5
 
 # Tap on file ...
 adb -s $PHONE_ID shell input tap 1000 1075
+sleep 2
 # Swipe up on more options
 adb -s $PHONE_ID shell input swipe 600 1300 600 600 1000
+sleep 2
 # Tap on Export
-adb -s $PHONE_ID shell input tap 540 1500
+adb -s $PHONE_ID shell input tap 590 1664
+sleep 2
 # Tap on Save to device
 adb -s $PHONE_ID shell input tap 550 330
+sleep 2
 # Tap on Save
-adb -s $PHONE_ID shell input tap 945 1830
+adb -s $PHONE_ID shell input tap 1000 1830
 
 sleep 10
 adb -s $PHONE_ID shell am force-stop com.dropbox.android

@@ -12,14 +12,26 @@ dir_name=`dirname "$0"`
 dir_name=${dir_name:2}
 
 echo 'STARTING TCPDUMP...'
+name="UT"
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 PID=$!
 adb -s $PHONE_ID shell am start -n com.facebook.orca/com.facebook.orca.auth.StartScreenActivity
 sleep 3
 
-adb -s $PHONE_ID shell input tap 300 700 # tapping on coordinates 289x690 on phone
+#Tap on search bar
+adb -s $PHONE_ID shell input tap 500 350
+sleep 2
 
+#Enter Text
+adb -s $PHONE_ID shell input text $name
+adb -s $PHONE_ID shell input keyevent 66
+sleep 2
+
+#Tap on user
+adb -s $PHONE_ID shell input tap 500 490
 sleep 3
+
+#Tap on the message bar
 adb -s $PHONE_ID shell input tap 750 1850
 
 sleep 3

@@ -20,14 +20,20 @@ sleep 3
 
 # Tap on + button
 adb -s $PHONE_ID shell input tap 940 1790
+sleep 2
 # Tap on Upload photos or videos
 adb -s $PHONE_ID shell input tap 540 1035
+sleep 2
 # Tap on photo or video to upload
 adb -s $PHONE_ID shell input tap 220 600
+sleep 2
 # Tap on Upload
 adb -s $PHONE_ID shell input tap 900 1830
+sleep 2
+# Tap on Replace existing file
+adb -s $PHONE_ID shell input tap 880 1165
 
-sleep 20
+sleep 10
 adb -s $PHONE_ID shell am force-stop com.dropbox.android
 echo 'STOPPING TCPDUMP...'
 kill ${PID}

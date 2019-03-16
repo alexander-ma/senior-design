@@ -19,7 +19,7 @@ adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.twitter.androi
 sleep 2
 
 adb shell input tap 942 1626
-sleep 1
+sleep 2
 adb shell input text "Random%snumber:%s$RANDOM"
 adb shell input tap 900 160
 sleep 3

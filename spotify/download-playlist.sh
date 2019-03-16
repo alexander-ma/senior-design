@@ -20,35 +20,35 @@ sleep 2
 
 echo 'CLICKING SEARCH BUTTON'
 adb shell input tap 491 1845
-sleep 5
+sleep 2
 
 echo 'CLICKING SEARCH BAR'
 adb shell input tap 534 635
-sleep 5
+sleep 2
 
 query="playlist"
 
 echo 'INPUTING QUERY'
 adb shell input text $query
-sleep 5
+sleep 2
 
 echo 'CLICKING SONG SIDEBAR OPTIONS'
-adb shell input tap 980 527
-sleep 5
+adb shell input tap 980 340
+sleep 2
 
 echo 'CLICK DOWNLOAD PLAYLIST'
-adb shell input tap 595 1400
+adb shell input tap 595 1423
 echo 'DOWNLOADING PLAYLIST'
 sleep 30
 
 echo 'CLICKING SONG SIDEBAR OPTIONS'
-adb shell input tap 980 527
-sleep 5
+adb shell input tap 980 340
+sleep 2
 
 echo 'CLICK REMOVE DOWNLOAD'
-adb shell input tap 500 1400
+adb shell input tap 500 1423
 
-sleep 5
+sleep 2
 
 adb -s $PHONE_ID shell am force-stop com.spotify.music
 echo 'STOPPING TCPDUMP...'

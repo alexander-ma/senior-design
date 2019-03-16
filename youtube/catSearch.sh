@@ -30,8 +30,7 @@ adb -s $PHONE_ID shell input tap 958 1846
 
 for i in {1..5}
 do
-	adb $PHONE_ID shell input swipe 500 1500 500 100 1000 #swipe
-	sleep 2
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 1000 #swipe
 done
 
 echo 'STOPPING TCPDUMP...'

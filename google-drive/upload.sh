@@ -18,11 +18,21 @@ PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.google.android.apps.docs/com.google.android.apps.docs.doclist.activity.DocListActivity
 sleep 2
 
-# Upload new file
+# Click on plus
 adb -s $PHONE_ID shell input tap 935 1795
-adb -s $PHONE_ID shell input tap 535 1705
-adb -s $PHONE_ID shell input tap 520 520
-sleep 15
+sleep 2
+#Click on Upload
+adb -s $PHONE_ID shell input tap 535 1375
+sleep 2
+#Click on menu
+adb -s $PHONE_ID shell input tap 90 171
+sleep 2
+#Click on Downloads
+adb -s $PHONE_ID shell input tap 375 700
+sleep 2
+#Click on file
+adb -s $PHONE_ID shell input tap 545 545
+sleep 30
 
 adb -s $PHONE_ID shell am force-stop com.google.android.apps.docs
 echo 'STOPPING TCPDUMP...'

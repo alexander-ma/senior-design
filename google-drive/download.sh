@@ -18,10 +18,16 @@ PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.google.android.apps.docs/com.google.android.apps.docs.doclist.activity.DocListActivity
 sleep 2
 
-# Make available offline
-adb -s $PHONE_ID shell input tap 475 840
-adb -s $PHONE_ID shell input tap 950 1610
-sleep 15
+# Tap on file
+adb -s $PHONE_ID shell input tap 1005 860
+sleep 2
+# Swipe up on more options
+adb -s $PHONE_ID shell input swipe 600 1300 600 600 200
+adb -s $PHONE_ID shell input swipe 600 1300 600 600 200
+sleep 2
+#Download file
+adb -s $PHONE_ID shell input tap  600 875
+sleep 10
 
 adb -s $PHONE_ID shell am force-stop com.google.android.apps.docs
 echo 'STOPPING TCPDUMP...'

@@ -9,14 +9,20 @@ import random
 
 
 def pick_random_script():
-	# not_working_scripts = ["hangout/hangout.sh"]
-	# for script in not_working_scripts:
-	# 	all_scripts.remove(script)
+	#Production code
+	not_working_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "snapchat/add-friend.sh"]
+	for script in not_working_scripts:
+		all_scripts.remove(script)
 
-	# return random.choice(all_scripts)
-	global bob
-	bob = bob + 1
-	return all_scripts[bob]
+	return random.choice(all_scripts)
+
+	##For testing all the scripts
+	# global bob
+	# bob = bob + 1
+	# return all_scripts[bob]
+
+	##For testing an individual script
+	# return "hangout/hangout.sh"
 
 def get_pcap_filename(filename):
 	return 'pcap/' + filename + '.pcap'

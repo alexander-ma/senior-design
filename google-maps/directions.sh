@@ -19,8 +19,8 @@ adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.google.android
 sleep 10
 
 # Center on current location
-adb -s $PHONE_ID shell input tap 930 1250
-sleep 2
+adb -s $PHONE_ID shell input tap 930 808
+sleep 3
 
 # Search for location
 location="Houston"
@@ -32,10 +32,15 @@ sleep 7
 
 # Lookup directions
 adb -s $PHONE_ID shell input tap 275 1295
-sleep 2
+sleep 4
 adb -s $PHONE_ID shell input tap 175 1830
 sleep 8
-
+adb -s $PHONE_ID shell input tap 135 1787
+sleep 2
+adb -s $PHONE_ID shell input tap 88 224
+sleep 2
+adb -s $PHONE_ID shell input tap 834 184
+sleep 2
 
 adb -s $PHONE_ID shell am force-stop com.google.android.apps.maps
 echo 'STOPPING TCPDUMP...'

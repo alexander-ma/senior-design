@@ -36,14 +36,13 @@ sleep 2
 
 for i in {1..5}
 do
-	adb shell input swipe 500 1500 500 100 1000
-	sleep 1
+	adb shell input swipe 500 1500 500 100 500
 done
 
 adb shell input tap 401 554
 sleep 3
 
-for i in {1..10}
+for i in {1..5}
 do
 	adb shell input swipe 500 1500 500 100 1000
 	sleep 1
