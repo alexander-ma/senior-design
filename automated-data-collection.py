@@ -18,14 +18,14 @@ def pick_random_script():
 	# 		all_scripts.remove(script)
 	# 	bob = bob + 1
 
-	# return random.choice(all_scripts)
+	return random.choice(all_scripts)
 
 	##For testing all the scripts
 	
 	# return all_scripts[bob]
 
 	##For testing an individual script
-	return "spotify/play-music.sh"
+	# return "spotify/play-music.sh"
 
 def get_pcap_filename(filename):
 	return 'pcap/' + filename + '.pcap'
@@ -151,7 +151,7 @@ device_list = []
 for x in range(4, len(string_device_output), 2):
     device_list.append(string_device_output[x])
 
-not_working_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "snapchat/add-friend.sh", "spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh"]
+not_working_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "snapchat/add-friend.sh", "spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh", "hangout/hangout.sh"]
 for script in not_working_scripts:
 	all_scripts.remove(script)
 
