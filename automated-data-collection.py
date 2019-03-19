@@ -18,14 +18,14 @@ def pick_random_script():
 	# 		all_scripts.remove(script)
 	# 	bob = bob + 1
 
-	return random.choice(all_scripts)
+	# return random.choice(all_scripts)
 
 	##For testing all the scripts
 	
 	# return all_scripts[bob]
 
 	##For testing an individual script
-	# return "spotify/play-music.sh"
+	return "gmail/send-email.sh"
 
 def get_pcap_filename(filename):
 	return 'pcap/' + filename + '.pcap'

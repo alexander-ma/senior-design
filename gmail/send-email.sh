@@ -1,3 +1,4 @@
+#!/bin/bash
 while getopts t:s: option; do
     case $option in
         t) TIME=$OPTARG;;
@@ -19,7 +20,7 @@ sleep 2
 email_address="utece.5gml@gmail.com"
 
 subject="Testing%sGmail%sEmail!"
-body="Testing%sthe%body%sof%the%sgmail%smessage!"
+body="Testing%sthe%sbody%sof%sthe%sgmail%smessage!"
 
 adb -s $PHONE_ID shell input tap 900 1800
 sleep 2
