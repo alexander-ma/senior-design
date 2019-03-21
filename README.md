@@ -8,6 +8,27 @@ Have the following installed:
   - symlink where it's downloaded to the senior-design directory
   - `ln -s /where/is/adb /where/is/senior-design`
 - tcpdump
+- Dropbox and Google Drive scripts require that a file be present in the downloads folder of the phone
+- All phones must have the apps downloaded and login information entered
+- These scripts cannot run when mulitple phones are connected: "hulu/scroll-home.sh", "hulu/watch-video.sh", "spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh", "hangout/hangout.sh"
+
+### Automated Collection Process
+1. Connect phones to the computer
+2. Run automated-data-collection.py
+    - Choose the location you are collection this data at (Example: EER, Houston, etc)
+    - Select the number of scripts you want the script to randomly choose to run from the available scripts in the directories inside the senior-design repository
+3. All the pcaps will be deleted and the converted csvs will be in the csv folder.
+4. Upload all csvs to Google Drive and delete local copy to save local storage space
+5. FAQ
+  - Running Scripts
+    - If you want to run a single script: Uncomment the single script line of code in the pick_random_script function
+    - If you want to run scripts on multiple phones simultaneously: uncomment return random.choice(all_scripts) in the pick_random_script function
+    - If you want to run the scripts which only run on a single phone: uncomment "Running scripts which run on one phone only" section in the pick_random_script function
+  - How does the auto reboot work and why is it required?
+    - Auto reboot, reboots the phones after a certain number of scripts are run on each phone. This number is defined in the variable reboot_after_num_scripts in automated-data-collection.py
+    - This is required because there is an issue with LineageOS where the deleted files are temporarily stored and are only deleted completely after a full reboot.
+  - How does the multi-threading work?
+    - Each phone has it's own executor service with a single thread so that we can concurrently run different scripts on each phone. This is because we did not want any race conditions between the execution of scripts. For example if we only have one executor service with two threads running, and the next two items on the thread queue are tasks for phone 1, then each thread will try to simulultaneously run a different script on phone 1 and one script will collide in execution with the other script in the different thread. So having one queue of tasks for each executor service will ensure that each phone will execute a script only after the previous script has finished execution.
 
 ### Collection Process
 1. Connect the phone and run: `adb root`
