@@ -16,7 +16,7 @@ Have the following installed:
 1. Connect phones to the computer
 2. Run automated-data-collection.py
     - Choose the location you are collection this data at (Example: EER, Houston, etc)
-    - Select the number of scripts you want the script to randomly choose to run from the available scripts in the directories inside the senior-design repository
+    - Select the number of iterations you want the automated-data-collection.py program to randomly choose scripts(.sh files) from the the senior-design repository
 3. All the pcaps will be deleted and the converted csvs will be in the csv folder.
 4. Upload all csvs to Google Drive and delete local copy to save local storage space
 5. FAQ
