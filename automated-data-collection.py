@@ -9,23 +9,18 @@ import random
 
 
 def pick_random_script():
-	global bob
 	#Production code. Comment out not working scripts code below when testing
-	# if bob == -1:
-	# 	#Comment this out when testing
-	# 	not_working_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "snapchat/add-friend.sh", "spotify/download-music", "spotify/play-music", "spotify/search-music"]
-	# 	for script in not_working_scripts:
-	# 		all_scripts.remove(script)
-	# 	bob = bob + 1
+	# return random.choice(all_scripts)
 
-	return random.choice(all_scripts)
+	##Running scripts which run on one phone only
+	single_phone_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh", "hangout/hangout.sh"]
+	return random.choice(single_phone_scripts)
 
 	##For testing all the scripts
-	
 	# return all_scripts[bob]
 
 	##For testing an individual script
-	# return "gmail/send-email.sh"
+	# return "hulu/watch-video.sh"
 
 def get_pcap_filename(filename):
 	return 'pcap/' + filename + '.pcap'
@@ -119,8 +114,24 @@ def task(phone_id, script_path, script_num):
 	pcap_to_csv(filename)
 	print("[", phone_id, "] [", script_path, "] Script end iteration: ", script_num, flush=True)
 	
-
-bob = -1
+def reboot_phone(futures, device_list, reboot_after_num_scripts):
+	try:
+		for future in futures:
+			print("futures len: ", len(futures))
+			future.result()
+		print("finished wating: ", len(device_list))
+		for device in device_list:
+			cmd = "adb -s "+ device+ " reboot"
+			subprocess.run(cmd, shell=True)
+		time.sleep(60)
+		print("Finished booting")
+		for device in device_list:
+			cmd = "adb -s "+ device+ " root"
+			subprocess.run(cmd, shell=True)
+		time.sleep(20)
+		print("Finished rooting")
+	except:
+		print("fail")
 
 pwd = os.getcwd()
 dir_list = [ name for name in os.listdir(pwd) if os.path.isdir(os.path.join(pwd, name)) ]
@@ -150,17 +161,24 @@ string_device_output = string_device_output.split();
 device_list = []
 for x in range(4, len(string_device_output), 2):
     device_list.append(string_device_output[x])
-
-not_working_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "snapchat/add-friend.sh", "spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh", "hangout/hangout.sh"]
-for script in not_working_scripts:
-	all_scripts.remove(script)
-
 num_devices = len(device_list)
 print("device list num: ", num_devices)
+
+not_working_scripts = ["snapchat/add-friend.sh", "spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh", "hangout/hangout.sh"]
+
+if num_devices != 1:
+	for script in not_working_scripts:
+		all_scripts.remove(script)
+
+reboot_after_num_scripts = 100
+futures = []
 for num in range(int(num_scripts)):
 	cur_device = num % num_devices
 
-	if num % num_devices == 0:
-		bob = bob + 1
 	script_path = pick_random_script()
-	executors[cur_device].submit(task, (device_list[cur_device]), (script_path), num)
+	futures.append(executors[cur_device].submit(task, (device_list[cur_device]), (script_path), num))
+	print("Execute Script: ", num)
+	if num % ((reboot_after_num_scripts*num_devices)-1) == 0:
+		reboot_phone(futures, device_list, reboot_after_num_scripts)
+		futures.clear()
+	

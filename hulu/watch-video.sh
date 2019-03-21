@@ -16,18 +16,14 @@ echo 'STARTING TCPDUMP...'
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.hulu.plus/com.hulu.features.splash.SplashActivity
-sleep 2
+sleep 10
 
 # DO ACTIONS
-for i in {1..5}
-do
-	sleep 1
-	adb -s $PHONE_ID shell input swipe 500 1500 500 100 1000
-done
+adb -s $PHONE_ID shell input tap 133 1400
 sleep 20
 
 # QUIT APPLICATIONS
-adb -s $PHONE_ID shell am force-stop android.intent.action.VIEW com.hulu.plus/com.hulu.features.splash.SplashActivity
+adb -s $PHONE_ID shell am force-stop com.hulu.plus
 
 # END TCPDUMP
 echo 'STOPPING TCPDUMP...'

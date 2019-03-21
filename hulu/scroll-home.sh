@@ -18,6 +18,12 @@ PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.hulu.plus/com.hulu.features.splash.SplashActivity
 sleep 10
 
+for i in {1..5}
+do
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 500
+    sleep 1
+done
+
 adb -s $PHONE_ID shell am force-stop com.hulu.plus
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
