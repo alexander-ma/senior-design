@@ -18,6 +18,16 @@ PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.hulu.plus/com.hulu.features.splash.SplashActivity
 sleep 10
 
+num1=$((1 + RANDOM % 3))
+num2=$((500 + RANDOM % 1000))
+num3=$((1 + RANDOM % 3))
+
+for ((i = 0 ; i < $num1 ; i++));
+do
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
+    sleep $num3
+done
+
 # DO ACTIONS
 adb -s $PHONE_ID shell input tap 133 1400
 sleep 20
@@ -32,6 +42,8 @@ sleep 3
 
 # GENERATING PCAP FILE
 echo 'Generating .pcap file...'
+sleep 1
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
+sleep 3
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
 sleep 10

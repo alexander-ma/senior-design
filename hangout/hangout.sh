@@ -39,13 +39,15 @@ adb shell input tap 880 186
 sleep 10
 
 adb shell input tap 540 1741
-sleep 2
+sleep 20
 
 adb -s $PHONE_ID shell am force-stop com.google.android.talk
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
 echo 'Generating .pcap file...'
+sleep 1
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
+sleep 3
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
 sleep 10

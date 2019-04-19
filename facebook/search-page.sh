@@ -26,40 +26,41 @@ sleep 1
 adb -s $PHONE_ID shell input tap 400 150
 sleep 2
 
-body="subtle"
+
+
+num=$((1 + RANDOM % 3))
+if (( $num == 1 )); then
+    body="subtle%asian%traits"
+elif (( $num == 2 )); then
+    body="cooking%swith%saisha"
+else
+    body="new%syork"
+fi
 
 adb -s $PHONE_ID shell input text $body
+adb -s $PHONE_ID shell input keyevent 66
 sleep 3
 
-adb -s $PHONE_ID shell input tap 400 350
+adb -s $PHONE_ID shell input tap 400 522
 sleep 2
 
-adb -s $PHONE_ID shell input tap 400 700
-sleep 2
+num1=$((2 + RANDOM % 5))
+num2=$((500 + RANDOM % 1000))
+num3=$((1 + RANDOM % 3))
 
-for i in {1..5}
+for ((i = 0 ; i < $num1 ; i++));
 do
-	adb -s $PHONE_ID shell input swipe 500 1500 500 100 1000
-	sleep 1
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
+    sleep $num3
 done
-
-# back
-adb -s $PHONE_ID shell input tap 50 100
-sleep 3
-
-# back
-adb -s $PHONE_ID shell input tap 50 100
-sleep 3
-
-# back
-adb -s $PHONE_ID shell input tap 50 100
-sleep 3
-
+sleep 20
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 adb -s $PHONE_ID shell am force-stop com.facebook.katana
 sleep 3
 echo 'Generating .pcap file...'
+sleep 1
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
+sleep 3
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
 sleep 10
