@@ -13,14 +13,14 @@ def pick_random_script():
 	return random.choice(all_scripts)
 
 	##Running scripts which run on one phone only
-	# single_phone_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh", "hangout/hangout.sh"]
+	# single_phone_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "netflix/browse-home.sh", "netflix/watch-video.sh", spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh", "hangout/hangout.sh"]
 	# return random.choice(single_phone_scripts)
 
 	##For testing all the scripts
 	# return all_scripts[bob]
 
 	##For testing an individual script
-	# return "hulu/watch-video.sh"
+	return "twitter/post-tweet.sh"
 
 def get_pcap_filename(filename):
 	return 'pcap/' + filename + '.pcap'
@@ -97,7 +97,7 @@ def pcap_to_csv(filename):
 
 	# Add in location row
 	df = pd.read_csv(csv_file)
-	df['location'] = location
+	df['location'] = "Prather"
 	df.to_csv(csv_file)
 	os.remove(pcap_file) 
 
@@ -123,7 +123,7 @@ def reboot_phone(futures, device_list, reboot_after_num_scripts):
 		for device in device_list:
 			cmd = "adb -s "+ device+ " reboot"
 			subprocess.run(cmd, shell=True)
-		time.sleep(60)
+		time.sleep(120)
 		print("Finished booting")
 		for device in device_list:
 			cmd = "adb -s "+ device+ " root"
@@ -164,21 +164,25 @@ for x in range(4, len(string_device_output), 2):
 num_devices = len(device_list)
 print("device list num: ", num_devices)
 
-not_working_scripts = ["snapchat/add-friend.sh", "spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh", "hangout/hangout.sh"]
+not_working_scripts = ["spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "netflix/browse-home.sh", "netflix/watch-video.sh", "hulu/scroll-home.sh", "hulu/watch-video.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh", "hangout/hangout.sh"]
 
 if num_devices != 1:
 	for script in not_working_scripts:
 		all_scripts.remove(script)
 
-reboot_after_num_scripts = 100
+reboot_after_num_scripts = 5
+script_cnt = [1,1,1]
 futures = []
 for num in range(int(num_scripts)):
 	cur_device = num % num_devices
 
 	script_path = pick_random_script()
 	futures.append(executors[cur_device].submit(task, (device_list[cur_device]), (script_path), num))
+	script_cnt[cur_device] = script_cnt[cur_device] + 1
+
 	print("Execute Script: ", num)
-	if num % ((reboot_after_num_scripts*num_devices)-1) == 0:
+	if script_cnt[cur_device] % ((reboot_after_num_scripts)+1) == 0:
+		print("Reboot at script num: ", script_cnt[cur_device])
 		reboot_phone(futures, device_list, reboot_after_num_scripts)
 		futures.clear()
 	

@@ -22,10 +22,14 @@ adb -s $PHONE_ID shell input tap 250 650
 sleep 2
 
 #scroll through images
-for i in {1..5}
+num1=$((3 + RANDOM % 5))
+num2=$((500 + RANDOM % 1000))
+num3=$((1 + RANDOM % 3))
+
+for ((i = 0 ; i < $num1 ; i++));
 do
-	adb -s $PHONE_ID shell input swipe 500 1500 500 100 1000
-	sleep 1
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
+    sleep $num3
 done
 
 # back
@@ -37,21 +41,27 @@ adb -s $PHONE_ID shell input tap 750 650
 sleep 2
 
 #scroll through images
-for i in {1..5}
+num1=$((3 + RANDOM % 5))
+num2=$((500 + RANDOM % 1000))
+num3=$((1 + RANDOM % 3))
+
+for ((i = 0 ; i < $num1 ; i++));
 do
-	adb -s $PHONE_ID shell input swipe 500 1500 500 100 1000
-	sleep 1
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
+    sleep $num3
 done
 
 # back
 adb -s $PHONE_ID shell input tap 70 212
-sleep 3
+sleep 20
 
 adb -s $PHONE_ID shell am force-stop com.pinterest
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
 echo 'Generating .pcap file...'
+sleep 1
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
+sleep 3
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
 sleep 10

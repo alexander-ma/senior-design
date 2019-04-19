@@ -23,7 +23,14 @@ adb -s $PHONE_ID shell input tap 930 808
 sleep 3
 
 # Search for location
-location="Houston"
+num=$((1 + RANDOM % 3))
+if (( $num == 1 )); then
+    location="Seattle"
+elif (( $num == 2 )); then
+    location="Austin"
+else
+    location="Houston"
+fi
 adb -s $PHONE_ID shell input tap 563 169
 sleep 1
 adb -s $PHONE_ID shell input text $location
@@ -40,13 +47,15 @@ sleep 2
 adb -s $PHONE_ID shell input tap 88 224
 sleep 2
 adb -s $PHONE_ID shell input tap 834 184
-sleep 2
+sleep 20
 
 adb -s $PHONE_ID shell am force-stop com.google.android.apps.maps
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
 echo 'Generating .pcap file...'
+sleep 1
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
+sleep 3
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
 sleep 10

@@ -15,17 +15,16 @@ dir_name=${dir_name:2}
 echo 'STARTING TCPDUMP...'
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 PID=$!
-adb -s $PHONE_ID shell am start -a android.intent.action.VIEW <REPLACE.ACTIVITY.HERE>
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.google.android.apps.maps/com.google.android.maps.MapsActivity
 sleep 2
 
 ### START ACTIONS HERE
 
-echo 'PLAY'
 sleep 300
 
 ### END ACTIONS HERE
 
-adb -s $PHONE_ID shell am force-stop <REPLACE.ACTIVITY.HERE>
+adb -s $PHONE_ID shell am force-stop com.google.android.apps.maps
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3

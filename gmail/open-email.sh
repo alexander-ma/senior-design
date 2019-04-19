@@ -15,20 +15,40 @@ echo 'STARTING TCPDUMP...'
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.google.android.gm/com.google.android.gm.ConversationListActivityGmail
-sleep 2
+sleep 5
 
-adb -s $PHONE_ID shell input tap 500 1300
-sleep 3
+num=$((1 + RANDOM % 3))
+if (( $num == 1 )); then
+    num1="1300"
+elif (( $num == 2 )); then
+    num1="1500"
+else
+    num1="940"
+fi
 
-adb -s $PHONE_ID shell input tap 50 100
-sleep 3
-
-adb -s $PHONE_ID shell input tap 500 1500
+num1="940"
+adb -s $PHONE_ID shell input tap 500 $num1
 sleep 3
 
 #back
 adb -s $PHONE_ID shell input tap 50 100
 sleep 3
+
+num=$((1 + RANDOM % 3))
+if (( $num == 1 )); then
+    num1="1300"
+elif (( $num == 2 )); then
+    num1="1500"
+else
+    num1="940"
+fi
+
+adb -s $PHONE_ID shell input tap 500 $num1
+sleep 3
+
+#back
+adb -s $PHONE_ID shell input tap 50 100
+sleep 20
 
 adb -s $PHONE_ID shell am force-stop com.google.android.gm
 echo 'STOPPING TCPDUMP...'

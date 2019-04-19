@@ -25,7 +25,13 @@ sleep 2
 adb -s $PHONE_ID shell input tap 540 1035
 sleep 2
 # Tap on photo or video to upload
-adb -s $PHONE_ID shell input tap 220 600
+num=$((1 + RANDOM % 2))
+if (( $num == 1 )); then
+    x="564"
+else
+    x="220"
+fi
+adb -s $PHONE_ID shell input tap $x 600
 sleep 2
 # Tap on Upload
 adb -s $PHONE_ID shell input tap 900 1830
@@ -33,12 +39,14 @@ sleep 2
 # Tap on Replace existing file
 adb -s $PHONE_ID shell input tap 880 1165
 
-sleep 10
+sleep 20
 adb -s $PHONE_ID shell am force-stop com.dropbox.android
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
 echo 'Generating .pcap file...'
+sleep 1
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
+sleep 3
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
 sleep 10

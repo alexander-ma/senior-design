@@ -26,7 +26,15 @@ sleep 3
 adb shell input tap 534 635
 sleep 3
 
-artist="american"
+num=$((1 + RANDOM % 3))
+if (( $num == 1 )); then
+    artist="american"
+elif (( $num == 2 )); then
+    artist="indian"
+else
+    artist="korean"
+fi
+
 
 adb shell input text $artist
 sleep 3
@@ -34,20 +42,29 @@ sleep 3
 adb shell input keyevent 111
 sleep 2
 
-for i in {1..5}
+num1=$((5 + RANDOM % 10))
+num2=$((500 + RANDOM % 1000))
+num3=$((1 + RANDOM % 3))
+
+for ((i = 0 ; i < $num1 ; i++));
 do
-	adb shell input swipe 500 1500 500 100 500
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
+    sleep $num3
 done
 
 adb shell input tap 401 554
 sleep 3
 
-for i in {1..5}
-do
-	adb shell input swipe 500 1500 500 100 1000
-	sleep 1
-done
+num1=$((5 + RANDOM % 10))
+num2=$((500 + RANDOM % 1000))
+num3=$((1 + RANDOM % 3))
 
+for ((i = 0 ; i < $num1 ; i++));
+do
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
+    sleep $num3
+done
+sleep 20
 ### END ACTIONS HERE
 
 adb -s $PHONE_ID shell am force-stop com.spotify.music
