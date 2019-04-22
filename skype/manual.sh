@@ -13,15 +13,15 @@ dir_name=`dirname "$0"`
 dir_name=${dir_name:2}
 
 echo 'STARTING TCPDUMP...'
-adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.skype.raider/com.skype.raider.Main
 PID=$!
-adb -s $PHONE_ID shell am start -a android.intent.action.VIEW adb shell am start com.skype.raider/com.skype.raider.Main
-sleep 2
+sleep 6
+adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 
 ### START ACTIONS HERE
 
 echo 'PLAY'
-sleep 300
+sleep 150
 
 ### END ACTIONS HERE
 
