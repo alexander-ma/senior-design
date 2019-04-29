@@ -37,7 +37,7 @@ while True:
             subprocess.run(script_cmd) 
         
         # Remove data payloads to cut down on storage
-        filename = "{0}_{1}__{2}_{3}".format(app_name, script_name[:-3], current_time, phone_id)
+        filename = "{0}_{1}_{2}_{3}".format(app_name, script_name[:-3], current_time, phone_id)
         pcap_file = 'pcap/' + filename + '.pcap'
         csv_file = 'csv/' + filename + '.csv'
 

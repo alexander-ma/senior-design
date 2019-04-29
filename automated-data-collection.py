@@ -10,7 +10,7 @@ import random
 
 def pick_random_script():
 	#Production code. Comment out not working scripts code below when testing
-	# return random.choice(all_scripts)
+	return random.choice(all_scripts)
 
 	##Running scripts which run on one phone only
 	# single_phone_scripts = ["hulu/scroll-home.sh", "hulu/watch-video.sh", "netflix/browse-home.sh", "netflix/watch-video.sh", spotify/download-playlist.sh", "spotify/play-music.sh", "spotify/search-music.sh", "twitter/post-tweet.sh", "twitter/scroll-feed.sh", "hangout/hangout.sh"]
