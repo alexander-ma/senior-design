@@ -176,16 +176,16 @@ print(all_scripts)
 reboot_after_num_scripts = 5
 script_cnt = [1,1,1]
 futures = []
-# for num in range(int(num_scripts)):
-# 	cur_device = num % num_devices
+for num in range(int(num_scripts)):
+	cur_device = num % num_devices
 
-# 	script_path = pick_random_script()
-# 	futures.append(executors[cur_device].submit(task, (device_list[cur_device]), (script_path), num))
-# 	script_cnt[cur_device] = script_cnt[cur_device] + 1
+	script_path = pick_random_script()
+	futures.append(executors[cur_device].submit(task, (device_list[cur_device]), (script_path), num))
+	script_cnt[cur_device] = script_cnt[cur_device] + 1
 
-# 	print("Execute Script: ", num)
-# 	if script_cnt[cur_device] % ((reboot_after_num_scripts)+1) == 0:
-# 		print("Reboot at script num: ", script_cnt[cur_device])
-# 		reboot_phone(futures, device_list, reboot_after_num_scripts)
-# 		futures.clear()
+	print("Execute Script: ", num)
+	if script_cnt[cur_device] % ((reboot_after_num_scripts)+1) == 0:
+		print("Reboot at script num: ", script_cnt[cur_device])
+		reboot_phone(futures, device_list, reboot_after_num_scripts)
+		futures.clear()
 	
