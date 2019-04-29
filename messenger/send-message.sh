@@ -35,8 +35,21 @@ sleep 3
 adb -s $PHONE_ID shell input tap 750 1850
 
 sleep 3
-array=("testing" "hmm" "bless" "Naeem")
+array=("testing" "hmm" "bless" "Naeem" "machine%slearning" "glasses" "samsumg" "pouch" "kevin%sis%sattractive" "Im%stoo%sbroke" "marvel" "tony%sstark" "chris" "neil" "andrews")
 
+num=$((RANDOM % 14))
+
+for element in 1...3 
+do
+    # typing and sending each word on messenger
+    for element in 1...4 
+    do
+        adb -s $PHONE_ID shell input text ${array[($num+1)]}
+        adb -s $PHONE_ID shell input tap 950 1000
+    done
+    sleep 2
+done
+sleep 2
 # typing and sending each word on messenger
 for element in ${array[@]} 
 do
