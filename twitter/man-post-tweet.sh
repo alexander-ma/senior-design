@@ -8,26 +8,26 @@ while getopts t:s: option; do
 done
 
 script_name=`basename "$0"`
-script_name=${script_name%.*h}
+script_name=${script_name%???}
 dir_name=`dirname "$0"`
 dir_name=${dir_name:2}
 
 echo 'STARTING TCPDUMP...'
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 PID=$!
-adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.spotify.music/com.spotify.music.MainActivity
-sleep 2
 
-### START ACTIONS HERE
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.twitter.android/com.twitter.app.main.MainActivity
+sleep 5
 
-echo 'PLAY'
-sleep 300
+echo 'RECORDING'
 
-### END ACTIONS HERE
+#manual navigation
+sleep 150
 
-adb -s $PHONE_ID shell am force-stop com.spotify.music
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
+sleep 3
+adb -s $PHONE_ID shell am force-stop com.twitter.android
 sleep 3
 echo 'Generating .pcap file...'
 adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" "pcap/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" 
