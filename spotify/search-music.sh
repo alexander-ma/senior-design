@@ -42,7 +42,13 @@ sleep 3
 adb shell input keyevent 111
 sleep 2
 
-num1=$((5 + RANDOM % 10))
+adb -s $PHONE_ID shell input swipe 500 1500 500 100
+echo "SCROLL"
+
+adb shell input tap 306 811
+sleep 3
+
+num1=$((3 + RANDOM % 5))
 num2=$((500 + RANDOM % 1000))
 num3=$((1 + RANDOM % 3))
 
@@ -53,9 +59,12 @@ do
 done
 
 adb shell input tap 401 554
-sleep 3
+sleep 2
 
-num1=$((5 + RANDOM % 10))
+adb shell input tap 67 175
+sleep 2
+
+num1=$((3 + RANDOM % 5))
 num2=$((500 + RANDOM % 1000))
 num3=$((1 + RANDOM % 3))
 
@@ -63,8 +72,15 @@ for ((i = 0 ; i < $num1 ; i++));
 do
 	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
     sleep $num3
+    if (( $i % 3 == 0 )); then
+        adb shell input tap 401 554
+        sleep 2
+
+        adb shell input tap 67 175
+        sleep 2
+    fi
 done
-sleep 20
+sleep 3
 ### END ACTIONS HERE
 
 adb -s $PHONE_ID shell am force-stop com.spotify.music
