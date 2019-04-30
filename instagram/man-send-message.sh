@@ -12,7 +12,8 @@ script_name=${script_name%.*h}
 dir_name=`dirname "$0"`
 dir_name=${dir_name:2}
 
-adb -s $PHONE_ID shell am start -a android.intent.action.VIEW https://drive.google.com/folderview?id=197hwpNRjYp7xJofgtaqMgYbNCmmtCsv0
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.instagram.android/com.instagram.android.activity.MainTabActivity
+sleep 5
 
 ### ----------- START ACTIONS HERE --------------
 
@@ -26,7 +27,7 @@ sleep 150
 
 ### ----------- END ACTIONS HERE ----------------
 
-adb -s $PHONE_ID shell am force-stop com.google.android.apps.docs
+adb -s $PHONE_ID shell am force-stop com.instagram.android
 echo 'STOPPING TCPDUMP...'
 kill ${PID}
 sleep 3
