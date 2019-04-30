@@ -32,7 +32,13 @@ do
     sleep $num3
 done
 
-sleep 20
+for ((i = 0 ; i < $num1 ; i++));
+do
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
+    sleep $num3
+done
+
+sleep 4
 
 ### END ACTIONS HERE
 

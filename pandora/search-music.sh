@@ -39,7 +39,7 @@ sleep 3
 adb shell input keyevent 111
 sleep 2
 
-num1=$((5 + RANDOM % 10))
+num1=$((3 + RANDOM % 5))
 num2=$((500 + RANDOM % 1000))
 num3=$((1 + RANDOM % 3))
 
@@ -55,7 +55,7 @@ sleep 2
 adb shell input tap 110 165
 sleep 2
 
-num1=$((5 + RANDOM % 10))
+num1=$((3 + RANDOM % 5))
 num2=$((500 + RANDOM % 1000))
 num3=$((1 + RANDOM % 3))
 

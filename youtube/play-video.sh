@@ -25,8 +25,8 @@ else
     link="https://www.youtube.com/watch?v=BT4RlDl7z3w"
 fi
 
-adb -s $PHONE_ID shell am start -a android.intent.action.VIEW link
-sleep 10
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW $link
+sleep 30
 
 adb -s $PHONE_ID shell am force-stop com.google.android.youtube
 echo 'STOPPING TCPDUMP...'

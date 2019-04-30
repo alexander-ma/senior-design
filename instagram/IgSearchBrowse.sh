@@ -18,6 +18,16 @@ PID=$!
 adb -s $PHONE_ID shell am start -n com.instagram.android/com.instagram.android.activity.MainTabActivity
 sleep 2
 
+num1=$((5 + RANDOM % 10))
+num2=$((500 + RANDOM % 1000))
+num3=$((1 + RANDOM % 3))
+echo $num1
+for ((i = 0 ; i < $num1 ; i++));
+do
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
+    sleep $num3
+done
+
 adb -s $PHONE_ID shell input tap 347 1824
 sleep 2
 adb -s $PHONE_ID shell input tap 411 174
@@ -55,7 +65,7 @@ done
 
 
 echo ${#array[@]}
-sleep 20
+sleep 3
 adb -s $PHONE_ID shell am force-stop com.instagram.android
 echo 'STOPPING TCPDUMP...'
 kill ${PID}

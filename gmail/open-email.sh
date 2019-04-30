@@ -34,21 +34,19 @@ sleep 3
 adb -s $PHONE_ID shell input tap 50 100
 sleep 3
 
-num=$((1 + RANDOM % 3))
-if (( $num == 1 )); then
-    num1="1300"
-elif (( $num == 2 )); then
-    num1="1500"
-else
-    num1="940"
-fi
-
-adb -s $PHONE_ID shell input tap 500 $num1
+num1=$((5 + RANDOM % 10))
+num2=$((500 + RANDOM % 1000))
+num3=$((1 + RANDOM % 3))
+echo $num1
+for ((i = 0 ; i < $num1 ; i++));
+do
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
+    sleep $num3
+    adb -s $PHONE_ID shell input tap 603 1296
+    sleep 2
+    adb -s $PHONE_ID shell input tap 50 100
+done
 sleep 3
-
-#back
-adb -s $PHONE_ID shell input tap 50 100
-sleep 20
 
 adb -s $PHONE_ID shell am force-stop com.google.android.gm
 echo 'STOPPING TCPDUMP...'

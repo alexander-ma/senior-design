@@ -25,19 +25,21 @@ sleep 2
 adb -s $PHONE_ID shell input tap 540 1035
 sleep 2
 # Tap on photo or video to upload
-num=$((1 + RANDOM % 2))
+num=$((1 + RANDOM % 3))
 if (( $num == 1 )); then
-    x="564"
+    adb -s $PHONE_ID shell input tap 904 1128
+elif (( $num == 2)); then
+    adb -s $PHONE_ID shell input tap 236 1136
 else
-    x="220"
+    adb -s $PHONE_ID shell input tap 228 1589
 fi
-adb -s $PHONE_ID shell input tap $x 600
 sleep 2
+
 # Tap on Upload
-adb -s $PHONE_ID shell input tap 900 1830
+adb -s $PHONE_ID shell input tap 923 1789
 sleep 2
 # Tap on Replace existing file
-adb -s $PHONE_ID shell input tap 880 1165
+adb -s $PHONE_ID shell input tap 829 1154
 
 sleep 20
 adb -s $PHONE_ID shell am force-stop com.dropbox.android

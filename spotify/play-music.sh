@@ -15,12 +15,21 @@ dir_name=${dir_name:2}
 echo 'STARTING TCPDUMP...'
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 PID=$!
-adb -s $PHONE_ID shell am start -a android.intent.action.VIEW "https://open.spotify.com/track/3kZC0ZmFWrEHdUCmUqlvgZ\?si\=_ZeVzH0XSL-HkJ33HNUDfw"
-sleep 2
+
+num=$((1 + RANDOM % 3))
+if (( $num == 1 )); then
+    link="https://open.spotify.com/track/3kZC0ZmFWrEHdUCmUqlvgZ\?si\=_ZeVzH0XSL-HkJ33HNUDfw"
+elif (( $num == 2 )); then
+    link="https://open.spotify.com/track/0MckhqoLpJ5alrdGvujQq8"
+else
+    link="https://open.spotify.com/track/7Lgmrd7iMgqctENiGTzAfe"
+fi
+
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW $link
 
 ### START ACTIONS HERE
 
-sleep 10
+sleep 30
 
 ### END ACTIONS HERE
 

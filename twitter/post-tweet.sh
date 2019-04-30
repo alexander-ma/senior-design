@@ -18,12 +18,16 @@ PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.twitter.android/com.twitter.app.main.MainActivity
 sleep 5
 
-adb shell input tap 942 1626
-sleep 5
-adb shell input text "Random%snumber:%s$RANDOM"
-sleep 5
-adb shell input tap 900 160
-sleep 20
+for i in {1..8}
+do
+    adb shell input tap 942 1626
+    sleep 5
+    adb shell input text "Random%snumber:%s$RANDOM"
+    sleep 5
+    adb shell input tap 900 160
+done
+
+sleep 3
 
 adb -s $PHONE_ID shell am force-stop com.twitter.android
 echo 'STOPPING TCPDUMP...'

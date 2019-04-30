@@ -27,7 +27,8 @@ do
 	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
     sleep $num3
 done
-sleep 20
+
+sleep 5
 adb -s $PHONE_ID shell am force-stop com.twitter.android
 echo 'STOPPING TCPDUMP...'
 kill ${PID}

@@ -12,11 +12,15 @@ script_name=${script_name%.*h}
 dir_name=`dirname "$0"`
 dir_name=${dir_name:2}
 
-echo 'STARTING TCPDUMP...'
-adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
-PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.hulu.plus/com.hulu.features.splash.SplashActivity
-sleep 10
+sleep 5
+
+adb -s $PHONE_ID shell input tap 660 1830
+sleep 2
+
+adb -s $PHONE_ID shell input tap 340 718
+sleep 2
+
 
 num1=$((1 + RANDOM % 3))
 num2=$((500 + RANDOM % 1000))
@@ -29,8 +33,18 @@ do
 done
 
 # DO ACTIONS
-adb -s $PHONE_ID shell input tap 133 1400
-sleep 20
+adb -s $PHONE_ID shell input tap 165 1430
+sleep 2
+
+echo 'STARTING TCPDUMP...'
+adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
+PID=$!
+
+sleep 2
+
+adb -s $PHONE_ID shell input tap 337 1274
+sleep 2
+sleep 40
 
 # QUIT APPLICATIONS
 adb -s $PHONE_ID shell am force-stop com.hulu.plus

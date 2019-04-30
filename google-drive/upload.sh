@@ -15,29 +15,26 @@ dir_name=${dir_name:2}
 echo 'STARTING TCPDUMP...'
 adb -s $PHONE_ID shell tcpdump -i any -s 0 -w "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap" &
 PID=$!
-adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.google.android.apps.docs/com.google.android.apps.docs.doclist.activity.DocListActivity
-sleep 2
+adb -s $PHONE_ID shell am start -a android.intent.action.VIEW https://drive.google.com/folderview?id=1EenyWB-DTsqGxrW2MGMMHmJ940_l7sUy
+sleep 4
 
 # Click on plus
-adb -s $PHONE_ID shell input tap 935 1795
+adb -s $PHONE_ID shell input tap 962 1580
 sleep 2
 #Click on Upload
-adb -s $PHONE_ID shell input tap 535 1375
+adb -s $PHONE_ID shell input tap 555 1370
 sleep 2
 
-num1=$((2 + RANDOM % 5))
-num2=$((500 + RANDOM % 1000))
-num3=$((1 + RANDOM % 3))
-
-for ((i = 0 ; i < $num1 ; i++));
-do
-	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
-    sleep $num3
-done
-
-#Click on file
-adb -s $PHONE_ID shell input tap 545 545
-sleep 30
+#select file
+num=$((1 + RANDOM % 3))
+if (( $num == 1 )); then
+    adb -s $PHONE_ID shell input tap 800 531
+elif (( $num == 2)); then
+    adb -s $PHONE_ID shell input tap 817 1014
+else
+    adb -s $PHONE_ID shell input tap 772 1439
+fi
+sleep 20
 
 adb -s $PHONE_ID shell am force-stop com.google.android.apps.docs
 echo 'STOPPING TCPDUMP...'

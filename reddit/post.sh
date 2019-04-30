@@ -18,47 +18,56 @@ PID=$!
 adb -s $PHONE_ID shell am start -a android.intent.action.VIEW com.reddit.frontpage/com.reddit.frontpage.MainActivity
 sleep 2
 
-# Create text post
-adb -s $PHONE_ID shell input tap 550 1850
-sleep 2
-adb -s $PHONE_ID shell input tap 900 1650
-sleep 2
-adb -s $PHONE_ID shell input tap 550 340
-sleep 2
-# Choose community
-adb -s $PHONE_ID shell input tap 550 550
-sleep 2
-adb -s $PHONE_ID shell input tap 550 500
-sleep 2
+for i in {1..3}
+do
+    # Create text post
+    adb -s $PHONE_ID shell input tap 550 1850
+    sleep 2
+    adb -s $PHONE_ID shell input tap 900 1650
+    sleep 2
+    adb -s $PHONE_ID shell input tap 550 340
+    sleep 2
+    # Choose community
+    adb -s $PHONE_ID shell input tap 550 550
+    sleep 2
+    adb -s $PHONE_ID shell input tap 550 500
+    sleep 2
 
-num=$((1 + RANDOM % 3))
-if (( $num == 1 )); then
-    postTerm="Testing"
-elif (( $num == 2 )); then
-    postTerm="Bob%sTesting"
-else
-    postTerm="Jill%sTesting"
-fi
+    num=$((1 + RANDOM % 3))
+    if (( $num == 1 )); then
+        postTerm="Testing"
+    elif (( $num == 2 )); then
+        postTerm="Bob%sTesting"
+    else
+        postTerm="Jill%sTesting"
+    fi
 
-adb -s $PHONE_ID shell input text $postTerm
-sleep 2
-adb -s $PHONE_ID shell input tap 550 650
-sleep 2
+    adb -s $PHONE_ID shell input text $postTerm
+    sleep 2
+    adb -s $PHONE_ID shell input tap 550 650
+    sleep 2
 
-num=$((1 + RANDOM % 3))
-if (( $num == 1 )); then
-    detailText="ignore"
-elif (( $num == 2 )); then
-    detailText="more%snecessary"
-else
-    detailText="not%sreally%ssure"
-fi
+    num=$((1 + RANDOM % 3))
+    if (( $num == 1 )); then
+        detailText="ignore"
+    elif (( $num == 2 )); then
+        detailText="more%snecessary"
+    else
+        detailText="not%sreally%ssure"
+    fi
 
-adb -s $PHONE_ID shell input text $detailText
-sleep 2
-adb -s $PHONE_ID shell input tap 970 190
+    adb -s $PHONE_ID shell input text $detailText
+    sleep 2
+    adb -s $PHONE_ID shell input tap 970 190
 
-sleep 20
+    # AGAIN
+
+    adb -s $PHONE_ID shell input tap 71 162
+    sleep 2
+done
+
+
+sleep 5
 
 adb -s $PHONE_ID shell am force-stop com.reddit.frontpage
 echo 'STOPPING TCPDUMP...'

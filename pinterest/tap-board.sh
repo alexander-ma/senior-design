@@ -53,7 +53,14 @@ done
 
 # back
 adb -s $PHONE_ID shell input tap 70 212
-sleep 20
+
+for ((i = 0 ; i < $num1 ; i++));
+do
+	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
+    sleep $num3
+done
+
+sleep 3
 
 adb -s $PHONE_ID shell am force-stop com.pinterest
 echo 'STOPPING TCPDUMP...'
