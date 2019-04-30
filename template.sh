@@ -33,8 +33,11 @@ adb -s $PHONE_ID pull "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pc
 adb -s $PHONE_ID shell rm "/sdcard/${dir_name}_${script_name}_${TIME}_${PHONE_ID}.pcap"
 sleep 10
 
-# ------- COMMAND LIST --------
+### ------------ COMMAND LIST -------------
 
+## Basics
+
+# General Swipe: adb -s $PHONE_ID shell input swipe <x1> <y1> <x2> <y2>
 # Swipe Up: adb -s $PHONE_ID shell input swipe 550 1650 550 550
 # Swipe Down: adb -s $PHONE_ID shell input swipe 550 550 550 1650
 # Swipe Left: adb -s $PHONE_ID shell input swipe 1000 1000 100 1000
@@ -43,37 +46,26 @@ sleep 10
 # Input Text: adb -s $PHONE_ID shell input text <text>
 # Hit Enter on Text: adb -s $PHONE_ID shell input keyevent 66
 
-# Randomize Click/ Selection
+## Select randomly from several actions (text, clicks, etc...)
 
 # num=$((RANDOM % <num_choices>))
 # if (( $num == 0 )); then
-#     adb -s $PHONE_ID shell input tap <x> <y>
+#     <action 1>
 # elif (( $num == 1)); then
-#     adb -s $PHONE_ID shell input tap <x> <y>
+#     <action 2>
 # else
-#     adb -s $PHONE_ID shell input tap <x> <y>
+#     <action 3>
 # fi
 # sleep 2
 
-# Randomize Scrolls
+## Randomize Scrolls
 
-# num1=$((<min> + RANDOM % <max>)) #avg 3
-# num2=$((<min> + RANDOM % <max>)) #avg 3
+# num1=$((<min> + RANDOM % <range>))
+# num2=$((<min> + RANDOM % <range>))
 # echo $num1
 # for ((i = 0 ; i < $num1 ; i++));
 # do
-# 	adb -s $PHONE_ID shell input swipe 500 1500 500 100 $num2
-#     sleep $num3
+# 	adb -s $PHONE_ID shell input swipe <x1> <y1> <x2> <y2>
+#   sleep $num2
 # done
 # sleep 2
-
-# Randomize Text
-
-# num=$((RANDOM % <num_choices>))
-# if (( $num == 0 )); then
-#     text="word1"
-# elif (( $num == 1 )); then
-#     text="word2"
-# else
-#     text="word3"
-# fi
